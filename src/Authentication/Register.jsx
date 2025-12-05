@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import SocialLogin from "./SocialLogin";
+import useAuth from "../hooks/useAuth";
 
 const Register = () => {
   const {
@@ -10,8 +11,17 @@ const Register = () => {
     reset,
   } = useForm();
 
+  const {createUser} =useAuth()
+
   const onSubmit = (data) => {
     console.log("User Registered Data:", data);
+    createUser(data.email , data.password)
+    .then(result=>{
+      console.log(result.user);
+    })
+    .catch(error=>{
+      console.error(error)
+    })
     reset();
   };
 
@@ -34,7 +44,7 @@ const Register = () => {
               type="text"
               placeholder="Enter your name"
               {...register("name", { required: "Name is required" })}
-              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:text-black"
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">
@@ -52,7 +62,7 @@ const Register = () => {
               type="email"
               placeholder="Enter your email"
               {...register("email", { required: "Email is required" })}
-              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:text-black"
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">
@@ -64,15 +74,15 @@ const Register = () => {
           {/* Profile Picture */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
-              Profile Picture URL
+              Profile Picture
             </label>
             <input
-              type="url"
-              placeholder="Paste your profile image link"
+              type="file"
+              accept="image/*"
               {...register("profilePic", {
-                required: "Profile picture URL is required",
+                required: "Profile picture is required",
               })}
-              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 text-black"
             />
             {errors.profilePic && (
               <p className="text-red-500 text-sm mt-1">
@@ -80,6 +90,7 @@ const Register = () => {
               </p>
             )}
           </div>
+
 
           {/* Password */}
           <div>
@@ -96,7 +107,7 @@ const Register = () => {
                   message: "Password must be at least 6 characters",
                 },
               })}
-              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:text-black"
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">

@@ -40,6 +40,12 @@ const Navbar = () => {
             >
               Contact
             </Link>
+            <Link
+              to="/addShirt"
+              className="text-gray-700 hover:text-indigo-600 transition font-medium"
+            >
+              add t-shirt
+            </Link>
 
             {/* Cart */}
             <Link

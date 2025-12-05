@@ -1,8 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import SocialLogin from "./SocialLogin";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    const {signIn} = useAuth();
     const {
         register,
         handleSubmit,
@@ -11,6 +16,16 @@ const Login = () => {
 
     const onSubmit = (data) => {
         console.log("User Login Data:", data);
+
+        signIn(data.email ,data.password)
+        .then(result=>{
+            console.log(result.user);
+            navigate('/')
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+
     };
 
     return (
@@ -32,7 +47,7 @@ const Login = () => {
                             type="email"
                             placeholder="Enter your email"
                             {...register("email", { required: "Email is required" })}
-                            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:text-black"
                         />
                         {errors.email && (
                             <p className="text-red-500 text-sm mt-1">
@@ -56,7 +71,7 @@ const Login = () => {
                                     message: "Password must be at least 6 characters",
                                 },
                             })}
-                            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:text-black"
                         />
                         {errors.password && (
                             <p className="text-red-500 text-sm mt-1">
