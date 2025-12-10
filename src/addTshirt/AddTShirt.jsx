@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import UseAxiosSecure from "../hooks/UseAxiosSecure";
 import useAuth from "../hooks/useAuth";
+import axios from "axios";
 
 const AddTShirtForm = () => {
   const {
@@ -21,7 +22,7 @@ const AddTShirtForm = () => {
   const axiosSecure = UseAxiosSecure();
   const {user } = useAuth();
 
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImage] = useState(null);
 
   // Watch price and discount to auto-calculate discount price
   const price = watch("price");
@@ -35,11 +36,30 @@ const AddTShirtForm = () => {
   }, [price, discount, setValue]);
 
   // Handle Image Preview
-  const handleImageChange = (e) => {
+  const handleImageChange = async(e) => {
     const file = e.target.files[0];
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
+
+    if(!file) return;
+
+    const formData = new FormData()
+    formData.append('image',file);
+
+    const imageURL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_api}`;
+    const res = await axios.post(imageURL,formData)
+    console.log(res);
+
+   try{
+     if (res.data.success) {
+        setImage(res.data.data.url);
+        Swal.fire("Uploaded!", "Image uploaded successfully", "success");
+      }
+   }
+      catch (err) {
+      console.error("Image upload failed:", err);
+      Swal.fire("Error", "Image upload failed!", "error");
     }
+
+   
   };
 
   const onSubmit = async (data) => {
@@ -48,10 +68,10 @@ const AddTShirtForm = () => {
 
     const finalData = {
       ...data,
+      image:imagePreview,
       size: sizes,
       color: colors,
        sellerEmail: user?.email ,
-      publishedDate: new Date().toISOString(),
     };
 
     // Show Confirmation Popup First
@@ -107,7 +127,7 @@ const AddTShirtForm = () => {
     
     // Reset Form
     reset();
-    setImagePreview(null);
+    setImage(null);
   };
 
 

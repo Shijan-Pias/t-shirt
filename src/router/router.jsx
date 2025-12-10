@@ -8,6 +8,10 @@ import Register from '../Authentication/Register';
 import PrivateRoutes from '../Routes/PrivateRoutes';
 import AddTShirt from '../addTshirt/AddTShirt';
 import ShopTShirts from '../shop/allTshirt';
+import MyCart from '../mycart/MyCart';
+import DetailsTShirt from '../shop/DetailsTShirt';
+import DashBoardLayout from '../Layout/DashBoardLayout';
+import Payment from '../DashBoard/Payment/Payment';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +29,11 @@ const router = createBrowserRouter([
       {
         path:'/shop',
         Component:ShopTShirts
+      },
+      
+      {
+        path:'/tShirt/:id',
+        Component:DetailsTShirt
       }
 
     ]
@@ -44,6 +53,21 @@ const router = createBrowserRouter([
       {
         path:'/register',
         Component:Register
+      }
+    ]
+  },
+  {
+    path:'/dashBoard',
+    element:<PrivateRoutes><DashBoardLayout></DashBoardLayout></PrivateRoutes>,
+    children:[
+      {
+        path:'myCart',
+        Component:MyCart
+
+      },
+      {
+        path:'payment/:id',
+        Component: Payment
       }
     ]
   }

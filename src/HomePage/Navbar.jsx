@@ -29,6 +29,12 @@ const Navbar = () => {
               Shop
             </Link>
             <Link
+              to="/myCart"
+              className="text-gray-700 hover:text-indigo-600 transition font-medium"
+            >
+              MyCart
+            </Link>
+            <Link
               to="/about"
               className="text-gray-700 hover:text-indigo-600 transition font-medium"
             >

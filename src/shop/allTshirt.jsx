@@ -36,7 +36,6 @@ const ShopTShirts = () => {
         title: shirt.title,
         brand: shirt.brand,
         price: shirt.discountPrice || shirt.price,
-        image: shirt.image,
         quantity: 1,
         status: "pending",
       };
@@ -117,7 +116,7 @@ const ShopTShirts = () => {
               <div className="card-actions justify-between mt-3">
                 <Link to={`/tshirt/${shirt._id}`}>
                   <button className="btn btn-sm btn-primary">
-                    👁 Details
+                     Details
                   </button>
                 </Link>
 
@@ -125,7 +124,7 @@ const ShopTShirts = () => {
                   onClick={() => handleAddCart(shirt)}
                   className="btn btn-sm btn-success"
                 >
-                  🛒 Add to Cart
+                   Add to Cart
                 </button>
               </div>
             </div>
