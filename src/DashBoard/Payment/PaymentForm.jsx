@@ -1,125 +1,130 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import useAuth from '../../hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
 import UseAxiosSecure from '../../hooks/UseAxiosSecure';
+import UseAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 
 const PaymentForm = () => {
-    const tShirtId = useParams();
-    const elements = useElements();
-    const [error, setError] = useState("");
-    const stripe = useStripe();
-    const { user } = useAuth();
-    const axiosSecure = UseAxiosSecure();
-    const navigate =useNavigate();
+  const stripe = useStripe();
+  const elements = useElements();
+  const [error, setError] = useState('');
+  const axiosSecure = UseAxiosSecure();
+  const { user } = UseAuth();
+  const navigate = useNavigate();
 
-    
+  const { cartId } = useParams();
 
-    const { data: cartItem = {}, isPending, refetch } = useQuery({
-        queryKey: ["cart-item", tShirtId],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/carts/${tShirtId}`);
-            return res.data;
-        },
+  // ✅ Cart থেকে সেই medicine এর info আনছি
+  const { isPending, refetch, data: TShirtInfo = {} } = useQuery({
+    queryKey: ['carts', cartId],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/carts/${cartId}`);
+      return res.data;
+    }
+  });
+
+  if (isPending) {
+    return '...loading';
+  }
+
+  const priceTk = TShirtInfo.price * TShirtInfo.quantity;
+
+  const amountCents = priceTk * 100;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const card = elements.getElement(CardElement);
+    if (card == null) {
+      return;
+    }
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card
     });
 
-    const priceTk = cartItem.price;
-    const amountCents = priceTk * 100;
+    if (error) {
+      setError(error.message);
+    } else {
+      setError('');
+      console.log('paymentMethod', paymentMethod);
 
-    if (isPending) return <p>Loading...</p>;
+      // step -2 : create payment intent 
+      const res = await axiosSecure.post('/create-payment-intent', {
+        amountCents,
+        cartId
+      });
+      const clientSecret = res.data.clientSecret;
 
+      //STEP-3 :confirm payment 
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            name: user.displayName,
+            email: user.email
+          },
+        },
+      });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
+      if (error) {
+        setError(error.message);
+      } else if (result.paymentIntent.status === "succeeded") {
+        setError('');
+        console.log('payment successfully');
+        console.log(result);
 
-        if (!stripe || !elements) return;
+        // step -4 : payment save and history show 
+        const paymentData = {
+          cartId,
+          userEmail: user.email,                    // কে কিনলো
+          sellerEmail: TShirtInfo.sellerEmail,    // seller কে
+          priceTk,
+          transactionId: result.paymentIntent.id,
+          paymentMethod: result.paymentIntent.payment_method_types,
+          status: "success",
+          paidAt: new Date()
+        };
 
-        const card = elements.getElement(CardElement);
-        if (!card) return;
-
-        // 🔹 STEP-1: Create payment method
-        const { error: methodError, paymentMethod } = await stripe.createPaymentMethod({
-            type: "card",
-            card,
-        });
-
-        if (methodError) {
-            setError(methodError.message);
-            return;
+        const paymentRes = await axiosSecure.post('/payments', paymentData);
+        if (paymentRes.data.insertedId) {
+          Swal.fire({
+            title: "Payment Successful ",
+            text: "Your Medicine has been marked as paid.",
+            icon: "success",
+            confirmButtonText: "Go to invoice",
+          }).then(() => {
+            // ✅ Redirect to invoice
+            navigate(`/invoice/${paymentRes.data.insertedId}`);
+          });
+          refetch();
         }
-        else{
-            console.log(paymentMethod);
-        }
+      }
+    }
+  };
 
-        // 🔹 STEP-2: Create payment intent from backend
-        const intentRes = await axiosSecure.post("/create-payment-intent", {
-            amountCents,
-            tShirtId,
-        });
-
-        const clientSecret = intentRes.data.clientSecret;
-
-        // 🔹 STEP-3: Confirm payment
-        const result = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card,
-                billing_details: {
-                    name: user.displayName,
-                    email: user.email,
-                },
-            },
-        });
-
-        if (result.error) {
-            setError(result.error.message);
-            return;
-        }
-
-        if (result.paymentIntent.status === "succeeded") {
-            // 🔹 STEP-4: Save payment info in database
-            const paymentData = {
-                tShirtId,
-                priceTk,
-                userEmail: user.email,
-                sellerEmail: cartItem.sellerEmail,
-                transactionId: result.paymentIntent.id,
-                paymentMethod: result.paymentIntent.payment_method_types,
-                status: "success",
-                paidAt: new Date(),
-            };
-
-            const saveRes = await axiosSecure.post("/payments", paymentData);
-
-            if (saveRes.data.insertedId) {
-                Swal.fire({
-                    title: "Payment Successful",
-                    text: "Your item has been paid!",
-                    icon: "success",
-                    confirmButtonText: "Go to Invoice",
-                }).then(() => navigate(`/invoice/${saveRes.data.insertedId}`));
-
-                refetch();
-            }
-        }
-    };
-    return (
-        <div>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
-                <CardElement className='p-2 ' />
-                <button
-                    type='submit'
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 disabled:opacity-50"
-                // disabled={!stripe}
-                >
-                    Pay {priceTk} tk
-                </button>
-                {error && <p className='text-red-400'>{error}</p>}
-            </form>
-        </div>
-    );
+  return (
+    <div>
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
+        <CardElement className='p-2 ' />
+        <button
+          type='submit'
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 disabled:opacity-50"
+          disabled={!stripe}
+        >
+          Pay {priceTk} tk
+        </button>
+        {error && <p className='text-red-400'>{error}</p>}
+      </form>
+    </div>
+  );
 };
 
 export default PaymentForm;
