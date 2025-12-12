@@ -124,6 +124,7 @@ const DashBoardLayout = () => {
                         
                         <li><NavLink to="/" className={activeStyle}><FaHome /> Home</NavLink></li>
                         <li><NavLink to="/dashBoard/myCart" ><FaHome /> MyTShirt</NavLink></li>
+                        <li><NavLink to="/dashBoard/paymentHistory" ><FaHome /> My Payment</NavLink></li>
                     </ul>
 
                     {/* Sidebar Footer: Logout */}

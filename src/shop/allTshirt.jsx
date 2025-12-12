@@ -32,7 +32,7 @@ const ShopTShirts = () => {
       const cartItem = {
         userEmail: user.email,
         sellerEmail: shirt.sellerEmail || "unknown@seller.com",
-        tshirtId: shirt._id,
+        tShirtId: shirt._id,
         title: shirt.title,
         brand: shirt.brand,
         price: shirt.discountPrice || shirt.price,

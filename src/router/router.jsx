@@ -12,6 +12,7 @@ import MyCart from '../mycart/MyCart';
 import DetailsTShirt from '../shop/DetailsTShirt';
 import DashBoardLayout from '../Layout/DashBoardLayout';
 import Payment from '../DashBoard/Payment/Payment';
+import PaymentHistory from '../DashBoard/UserDashboard/PaymnetHistory';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path:'payment/:cartId',
         Component: Payment
+      },
+      {
+        path:'paymentHistory',
+        Component:PaymentHistory
       }
     ]
   }
