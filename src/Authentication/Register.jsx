@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../hooks/useAuth";
+import axios from "axios";
+import UseAxiosSecure from "../hooks/UseAxiosSecure";
+import { useNavigate } from "react-router";
 
 const Register = () => {
   const {
@@ -11,19 +14,72 @@ const Register = () => {
     reset,
   } = useForm();
 
-  const {createUser} =useAuth()
+  const { createUser, updateProfileInfo } = useAuth()
+  const [profilePic, setProfilePic] = useState(null);
+  const axiosSecure = UseAxiosSecure();
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log("User Registered Data:", data);
-    createUser(data.email , data.password)
-    .then(result=>{
-      console.log(result.user);
-    })
-    .catch(error=>{
-      console.error(error)
-    })
+    createUser(data.email, data.password)
+      .then(async (result) => {
+        console.log(result.user);
+
+        //update user 
+        //update in back-end
+        const userData = {
+
+          email: data.email,
+          name: data.name,
+          role: data.role, //default
+          profileImage: profilePic,
+          created_at: new Date().toISOString(),
+          last_log_in: new Date().toISOString()
+        }
+
+        const userRes = await axiosSecure.post('/users', userData);
+        console.log(userRes.data);
+
+        //update in firebase 
+        const updateInfo = {
+          displayName: data.name,
+          photoURL: profilePic
+        }
+
+        updateProfileInfo(updateInfo)
+          .then(() => {
+            console.log('updated successfully');
+          })
+          .catch(error => {
+            console.log(error);
+          })
+
+
+
+
+        navigate('/')
+
+      })
+      .catch(error => {
+        console.error(error)
+      })
     reset();
   };
+
+  const handleImageFile = async (e) => {
+    e.preventDefault();
+
+    const image = e.target.files[0];
+    console.log(image);
+
+    const formData = new FormData();
+    formData.append('image', image)
+
+    const imageUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_api}`
+    const res = await axios.post(imageUrl, formData)
+    console.log(res);
+    setProfilePic(res.data.data.url);
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -76,19 +132,8 @@ const Register = () => {
             <label className="block text-gray-700 font-medium mb-1">
               Profile Picture
             </label>
-            <input
-              type="file"
-              accept="image/*"
-              {...register("profilePic", {
-                required: "Profile picture is required",
-              })}
-              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 text-black"
-            />
-            {errors.profilePic && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.profilePic.message}
-              </p>
-            )}
+            <input type="file" onChange={handleImageFile} className="input" placeholder="Enter your Picture " />
+           
           </div>
 
 
@@ -113,6 +158,21 @@ const Register = () => {
               <p className="text-red-500 text-sm mt-1">
                 {errors.password.message}
               </p>
+            )}
+          </div>
+
+          {/* Role Select */}
+          <div>
+            <select
+              {...register("role", { required: "Role is required" })}
+              className="select select-bordered w-full"
+            >
+              <option value="">Select Role</option>
+              <option value="user">User</option>
+              <option value="seller">Seller</option>
+            </select>
+            {errors.role && (
+              <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
             )}
           </div>
 

@@ -35,7 +35,15 @@ const router = createBrowserRouter([
       {
         path:'/tShirt/:id',
         Component:DetailsTShirt
-      }
+      },
+      {
+        
+        path:'/myCart',
+       element:<PrivateRoutes><MyCart></MyCart></PrivateRoutes>
+
+      },
+
+      
 
     ]
   },

@@ -1,22 +1,38 @@
 import React from 'react';
 import { FaGoogle } from "react-icons/fa";
 import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router';
+import UseAxiosSecure from '../hooks/UseAxiosSecure';
 const SocialLogin = () => {
-    const {signInGoogle} =useAuth();
+    const { signInGoogle } = useAuth();
+    const axiosSecure =UseAxiosSecure();
+    const navigate =useNavigate();
 
-    const handleGoogleLogin =()=>{
+    const handleGoogleLogin = () => {
         signInGoogle()
-        .then(result=>{
-            console.log(result.user);
-        })
-        .catch(error=>{
-            console.log(error);
-        })
-        
+            .then(async(result) => {
+                const loggedInUser = result.user
+                console.log(loggedInUser);
+                const userInfo = {
+                    name: loggedInUser.displayName,
+                    email: loggedInUser.email,
+                    role: "user", // Default role for Google Login
+                    image: loggedInUser.photoURL,
+                    status: "active"
+                };
+
+                const userRes = await axiosSecure.post('/users',userInfo)
+                console.log(userRes.data);
+                navigate('/')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
 
     }
     return (
-       <div className="w-full">
+        <div className="w-full">
             {/* OR divider */}
             <div className="flex items-center gap-3 my-4">
                 <div className="flex-grow h-px bg-gray-300"></div>

@@ -1,22 +1,19 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router'; // Fixed import 'react-router-dom'
 // import UseUserRole from '../hook/UseUserRole';
-import { 
-  FaHome, FaUsers, FaClipboardList, FaMoneyBillWave, 
-  FaPlusCircle, FaBoxOpen, FaChartBar, FaUserShield, 
-  FaFlag, FaSignOutAlt, FaHistory 
+import {
+    FaHome, FaUsers, FaClipboardList, FaMoneyBillWave,
+    FaPlusCircle, FaBoxOpen, FaChartBar, FaUserShield,
+    FaFlag, FaSignOutAlt, FaHistory
 } from 'react-icons/fa';
+import useAuth from '../hooks/useAuth';
 
 // Optional: Import a hook to get user data like name/image if you have it
 // import useAuth from '../hooks/useAuth';
 
 const DashBoardLayout = () => {
     // Mock user data for display (Replace with real user data from AuthContext)
-    const user = { 
-        displayName: "Rahat", 
-        photoURL: "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
-        email: "user@example.com"
-    };
+    const { user } = useAuth();
 
     // const { role, roleLoading } = UseUserRole();
     const navigate = useNavigate();
@@ -39,10 +36,10 @@ const DashBoardLayout = () => {
     return (
         <div className="drawer lg:drawer-open bg-base-200 min-h-screen font-sans">
             <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
-            
+
             {/* --- MAIN CONTENT AREA --- */}
             <div className="drawer-content flex flex-col">
-                
+
                 {/* Mobile Navbar (Only visible on small screens) */}
                 <div className="w-full navbar bg-base-100 lg:hidden shadow-md z-10 sticky top-0">
                     <div className="flex-none">
@@ -53,7 +50,7 @@ const DashBoardLayout = () => {
                     <div className="flex-1 px-2 mx-2 text-xl font-bold text-gray-700">Dashboard</div>
                     <div className="flex-none gap-2">
                         <div className="avatar">
-                             <div className="w-10 rounded-full">
+                            <div className="w-10 rounded-full">
                                 <img src={user.photoURL} alt="User" />
                             </div>
                         </div>
@@ -69,27 +66,27 @@ const DashBoardLayout = () => {
             {/* --- SIDEBAR --- */}
             <div className="drawer-side z-20">
                 <label htmlFor="dashboard-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-                
+
                 <aside className="bg-[#1e1e2f] text-base-content w-72 min-h-full flex flex-col">
-                    
+
                     {/* Sidebar Header: Logo & Profile */}
                     <div className="p-6 flex flex-col items-center border-b border-gray-700/50">
                         <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-6 tracking-wide">
                             PHARMACY APP
                         </h2>
-                        
+
                         <div className="avatar online mb-3">
                             <div className="w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                                 <img src={user.photoURL} alt="User" />
                             </div>
                         </div>
                         <h3 className="text-white font-bold text-lg">{user.displayName}</h3>
-                        <p className="text-xs text-gray-500 uppercase tracking-widest mt-1 font-semibold badge badge-outline badge-primary">{}</p>
+                        <p className="text-xs text-gray-500 uppercase tracking-widest mt-1 font-semibold badge badge-outline badge-primary">{ }</p>
                     </div>
 
                     {/* Navigation Menu */}
                     <ul className="menu p-4 w-full flex-grow space-y-2">
-                        
+
                         {/* ---------------- ADMIN LINKS ---------------- */}
                         {/* {role === 'admin' && (
                             <>
@@ -112,19 +109,21 @@ const DashBoardLayout = () => {
                         )} */}
 
                         {/* ---------------- USER LINKS ---------------- */}
-                        {/* {role === 'user' && (
+                        {user.role === 'user' && (
                             <>
                                 <li className="menu-title text-gray-500 text-xs uppercase font-bold mt-2 mb-1 pl-2">My Account</li>
-                                <li><NavLink to="/dashboard/paymentHistory" className={activeStyle}><FaHistory /> Payment History</NavLink></li>
+
+
                             </>
-                        )} */}
+                        )}
 
                         {/* ---------------- SHARED LINKS ---------------- */}
                         <div className="divider divider-neutral my-4"></div>
-                        
+
                         <li><NavLink to="/" className={activeStyle}><FaHome /> Home</NavLink></li>
                         <li><NavLink to="/dashBoard/myCart" ><FaHome /> MyTShirt</NavLink></li>
                         <li><NavLink to="/dashBoard/paymentHistory" ><FaHome /> My Payment</NavLink></li>
+
                     </ul>
 
                     {/* Sidebar Footer: Logout */}
