@@ -6,13 +6,16 @@ import AuthLayout from '../Layout/AuthLayout';
 import Login from '../Authentication/Login';
 import Register from '../Authentication/Register';
 import PrivateRoutes from '../Routes/PrivateRoutes';
-import AddTShirt from '../addTshirt/AddTShirt';
 import ShopTShirts from '../shop/allTshirt';
 import MyCart from '../mycart/MyCart';
 import DetailsTShirt from '../shop/DetailsTShirt';
 import DashBoardLayout from '../Layout/DashBoardLayout';
 import Payment from '../DashBoard/Payment/Payment';
 import PaymentHistory from '../DashBoard/UserDashboard/PaymnetHistory';
+import SellerPaymentHistory from '../DashBoard/SellerDashboard/PaymentHistory';
+import AddTShirtForm from '../addTshirt/AddTShirt';
+import ManageTShirts from '../DashBoard/SellerDashboard/ManageTshirt';
+import AdminManage from '../DashBoard/Admindashboard/AdminManage';
 
 const router = createBrowserRouter([
   {
@@ -23,10 +26,7 @@ const router = createBrowserRouter([
         index: true,
         Component: Home
       },
-      {
-        path:'/addShirt',
-        element:<PrivateRoutes><AddTShirt></AddTShirt></PrivateRoutes>
-      },
+      
       {
         path:'/shop',
         Component:ShopTShirts
@@ -81,7 +81,24 @@ const router = createBrowserRouter([
       {
         path:'paymentHistory',
         Component:PaymentHistory
+      },
+      {
+        path:'sellerPaymentHistory',
+        Component:SellerPaymentHistory
+      },
+      {
+        path:"addTShirt",
+        Component:AddTShirtForm
+      },
+      {
+        path:"manageTShirt",
+        Component:ManageTShirts
+      },
+      {
+        path:"manageAdmin",
+        Component:AdminManage
       }
+      
     ]
   }
 ]);

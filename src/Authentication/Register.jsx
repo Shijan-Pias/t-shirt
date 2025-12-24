@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
-import UseAxiosSecure from "../hooks/UseAxiosSecure";
 import { useNavigate } from "react-router";
+import UseAxios from "../hooks/UseAxios";
 
 const Register = () => {
   const {
@@ -16,7 +16,7 @@ const Register = () => {
 
   const { createUser, updateProfileInfo } = useAuth()
   const [profilePic, setProfilePic] = useState(null);
-  const axiosSecure = UseAxiosSecure();
+  const axiosInstance = UseAxios();
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
@@ -37,7 +37,7 @@ const Register = () => {
           last_log_in: new Date().toISOString()
         }
 
-        const userRes = await axiosSecure.post('/users', userData);
+        const userRes = await axiosInstance.post('/users', userData);
         console.log(userRes.data);
 
         //update in firebase 

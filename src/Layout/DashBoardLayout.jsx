@@ -123,6 +123,11 @@ const DashBoardLayout = () => {
                         <li><NavLink to="/" className={activeStyle}><FaHome /> Home</NavLink></li>
                         <li><NavLink to="/dashBoard/myCart" ><FaHome /> MyTShirt</NavLink></li>
                         <li><NavLink to="/dashBoard/paymentHistory" ><FaHome /> My Payment</NavLink></li>
+                        <li><NavLink to="/dashBoard/sellerPaymentHistory" ><FaHome /> All Payment</NavLink></li>
+                        <li><NavLink to="/dashBoard/addTShirt" ><FaHome />Add tShirt</NavLink></li>
+                        <li><NavLink to="/dashBoard/manageTShirt" ><FaHome />Manage TShirt</NavLink></li>
+                        <li><NavLink to="/dashBoard/manageAdmin" ><FaHome />Manage Admin</NavLink></li>
+
 
                     </ul>
 

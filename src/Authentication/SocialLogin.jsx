@@ -2,10 +2,10 @@ import React from 'react';
 import { FaGoogle } from "react-icons/fa";
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router';
-import UseAxiosSecure from '../hooks/UseAxiosSecure';
+import UseAxios from '../hooks/UseAxios';
 const SocialLogin = () => {
     const { signInGoogle } = useAuth();
-    const axiosSecure =UseAxiosSecure();
+    const axiosInstance =UseAxios();
     const navigate =useNavigate();
 
     const handleGoogleLogin = () => {
@@ -21,7 +21,7 @@ const SocialLogin = () => {
                     status: "active"
                 };
 
-                const userRes = await axiosSecure.post('/users',userInfo)
+                const userRes = await axiosInstance.post('/users',userInfo)
                 console.log(userRes.data);
                 navigate('/')
             })
