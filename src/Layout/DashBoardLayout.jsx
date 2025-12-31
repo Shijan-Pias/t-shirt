@@ -7,13 +7,14 @@ import {
     FaFlag, FaSignOutAlt, FaHistory
 } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
+import useUserRole from '../hooks/UseUserRole';
 
-// Optional: Import a hook to get user data like name/image if you have it
-// import useAuth from '../hooks/useAuth';
 
 const DashBoardLayout = () => {
     // Mock user data for display (Replace with real user data from AuthContext)
     const { user } = useAuth();
+    const { role, isRoleLoading} = useUserRole();
+    console.log(role);
 
     // const { role, roleLoading } = UseUserRole();
     const navigate = useNavigate();
@@ -108,25 +109,37 @@ const DashBoardLayout = () => {
                             </>
                         )} */}
 
-                        {/* ---------------- USER LINKS ---------------- */}
-                        {user.role === 'user' && (
-                            <>
-                                <li className="menu-title text-gray-500 text-xs uppercase font-bold mt-2 mb-1 pl-2">My Account</li>
 
-
-                            </>
-                        )}
 
                         {/* ---------------- SHARED LINKS ---------------- */}
                         <div className="divider divider-neutral my-4"></div>
 
                         <li><NavLink to="/" className={activeStyle}><FaHome /> Home</NavLink></li>
-                        <li><NavLink to="/dashBoard/myCart" ><FaHome /> MyTShirt</NavLink></li>
-                        <li><NavLink to="/dashBoard/paymentHistory" ><FaHome /> My Payment</NavLink></li>
-                        <li><NavLink to="/dashBoard/sellerPaymentHistory" ><FaHome /> All Payment</NavLink></li>
-                        <li><NavLink to="/dashBoard/addTShirt" ><FaHome />Add tShirt</NavLink></li>
-                        <li><NavLink to="/dashBoard/manageTShirt" ><FaHome />Manage TShirt</NavLink></li>
-                        <li><NavLink to="/dashBoard/manageAdmin" ><FaHome />Manage Admin</NavLink></li>
+                        {
+                            role == "user" &&
+                            <>
+                                <li><NavLink to="/dashBoard/myCart" ><FaHome /> MyTShirt</NavLink></li>
+                                <li><NavLink to="/dashBoard/paymentHistory" ><FaHome /> My Payment</NavLink></li>
+
+                            </>
+                        }
+                        {
+                            role == "seller" &&
+
+                            <>
+                                <li><NavLink to="/dashBoard/sellerPaymentHistory" ><FaHome /> All Payment</NavLink></li>
+                                <li><NavLink to="/dashBoard/addTShirt" ><FaHome />Add tShirt</NavLink></li>
+                                <li><NavLink to="/dashBoard/manageTShirt" ><FaHome />Manage TShirt</NavLink></li>
+                            </>
+                        }
+
+
+                        {
+                            role =="admin" && !isRoleLoading &&
+                            <>
+                                <li><NavLink to="/dashBoard/manageAdmin" ><FaHome />Manage Admin</NavLink></li>
+                            </>
+                        }
 
 
                     </ul>

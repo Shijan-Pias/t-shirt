@@ -1,67 +1,100 @@
-import { motion } from "framer-motion";
-import tshirt1 from "../assets/istockphoto-1273940716-612x612.jpg";
-import tshirt2 from "../assets/hiking-business-t-shirt-design-idea.jpg";
-import tshirt3 from "../assets/size_L.webp";
+import React from 'react';
+import { ShoppingCart, ArrowRight} from 'lucide-react';
+import { Link } from 'react-router';
+import image from '../assets/banner_pic.avif'
 
 const Banner = () => {
   return (
-    <section className="bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col md:flex-row items-center justify-between gap-10">
-        {/* Left Side (Text + Button) */}
-        <motion.div
-          initial={{ opacity: 0, x: -60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="md:w-1/2 space-y-6"
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
-            Style That Speaks — <br />
-            <span className="text-indigo-600">Your Perfect Tee Awaits!</span>
+    // Background: Soft Creamy/Off-white color for a clean look
+    <section className="relative w-full min-h-[90vh] flex items-center justify-center bg-[#FDFBF7] px-6 md:px-12 overflow-hidden font-sans">
+      
+      {/* Decorative Soft Background Blobs (Soft Design Element) */}
+      <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-orange-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70"></div>
+
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+        
+        {/* ---- Left Side: Text Content (Clean & Readable) ---- */}
+        <div className="space-y-6 text-center md:text-left">
+          <span className="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-600 text-sm font-semibold tracking-wide">
+            New Arrival 2026
+          </span>
+          
+          <h1 className="text-5xl md:text-7xl font-bold text-gray-800 leading-tight">
+            Comfort Meets <br/> 
+            <span className="text-orange-500">Style.</span>
           </h1>
-          <p className="text-gray-600 text-lg">
-            Discover our latest collection of premium cotton T-shirts designed
-            for comfort, quality, and your unique vibe.
+          
+          <p className="text-gray-500 text-lg md:text-xl max-w-md mx-auto md:mx-0 leading-relaxed">
+            Discover our premium cotton collection. Soft on skin, easy on the eyes. Perfect for your everyday vibe.
           </p>
-          <button className="px-6 py-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition duration-300">
-            Get Started
-          </button>
-        </motion.div>
 
-        {/* Right Side (T-shirt Images) */}
-        <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="md:w-1/2 flex justify-center relative"
-        >
-          {/* Background Circle Design */}
-          <div className="absolute -z-10 bg-indigo-100 rounded-full w-72 h-72 md:w-96 md:h-96 blur-3xl opacity-60"></div>
+          {/* Parent div: w-full এবং justify-center দিয়ে পুরো মাঝখানে আনা হয়েছে */}
+<div className="w-full flex justify-center pt-8">
+  
+  <Link to='/shop'>
+    <button className="group relative flex items-center justify-center gap-3 bg-gray-900 text-white px-10 py-4 rounded-full font-semibold tracking-wide overflow-hidden transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 hover:bg-black">
+      
+      {/* Button Text */}
+      <span className="relative z-10">Shop Collection</span>
+      
+      {/* Icon: হোভার করলে আইকনটি একটু নড়বে (Nice Touch) */}
+      <ShoppingCart 
+        size={20} 
+        className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" 
+      />
 
-          {/* T-shirt Images */}
-          <div className="flex gap-4 md:gap-6">
-            <motion.img
-              src={tshirt1}
-              alt="T-shirt 1"
-              className="w-28 md:w-30 md:h-30 rounded-xl shadow-md hover:scale-105 transition"
-              whileHover={{ scale: 1.05 }}
-            />
-            <motion.img
-              src={tshirt2}
-              alt="T-shirt 2"
-              className="w-28 md:w-40 md:h-40 rounded-xl shadow-md hover:scale-105 transition"
-              whileHover={{ scale: 1.05 }}
-            />
-            <motion.img
-              src={tshirt3}
-              alt="T-shirt 3"
-              className="w-28 md:w-50 md:h-50 rounded-xl shadow-md hover:scale-105 transition"
-              whileHover={{ scale: 1.05 }}
-            />
+      {/* Optional: একটি সফট গ্লো ইফেক্ট বাটনের পেছনে */}
+      <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+    
+    </button>
+  </Link>
+
+</div>
+          
+          {/* Trust stats (Optional but looks professional) */}
+          <div className="pt-8 flex items-center gap-8 justify-center md:justify-start grayscale opacity-60">
+             <div className="text-sm font-bold">100% <br/><span className="font-normal text-xs">Cotton</span></div>
+             <div className="w-px h-8 bg-gray-300"></div>
+             <div className="text-sm font-bold">2k+ <br/><span className="font-normal text-xs">Reviews</span></div>
+             <div className="w-px h-8 bg-gray-300"></div>
+             <div className="text-sm font-bold">Fast <br/><span className="font-normal text-xs">Delivery</span></div>
           </div>
-        </motion.div>
+        </div>
+
+        {/* ---- Right Side: Soft Image Layout ---- */}
+        <div className="relative flex justify-center">
+            {/* Main Image Container with Soft Rounded Corners */}
+            <div className="relative w-[350px] h-[450px] md:w-[450px] md:h-[550px] bg-white p-4 rounded-[40px] shadow-2xl rotate-3 hover:rotate-0 transition-all duration-500 ease-in-out">
+                <img 
+                  // This is a working link. Change this to your local image later.
+                  src={image} 
+                  alt="T-shirt Model" 
+                  className="w-full h-full object-cover rounded-[30px]"
+                />
+                
+                {/* Floating Card Feature (User Intent) */}
+                <div className="absolute bottom-8 left-[-20px] md:left-[-40px] bg-white p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce-slow">
+                    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold">
+                        $25
+                    </div>
+                    <div>
+                        <p className="text-sm font-bold text-gray-800">Classic White Tee</p>
+                        <p className="text-xs text-green-500 font-semibold">In Stock</p>
+                    </div>
+                </div>
+            </div>
+            
+            {/* Background Shape behind image */}
+            <div className="absolute -z-10 top-10 right-10 w-full h-full border-2 border-orange-200 rounded-[40px]"></div>
+        </div>
+
       </div>
     </section>
   );
 };
+
+// Add this to your index.css or tailwind config for the slow bounce animation if needed
+// keyframes: { 'bounce-slow': 'bounce 3s infinite' }
 
 export default Banner;

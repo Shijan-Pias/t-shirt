@@ -96,7 +96,7 @@ const Navbar = () => {
                   <Store size={24} />
                 </div>
                 <span className="text-2xl font-bold text-gray-900 tracking-tight">
-                  T-Store
+                  <span className="text-red-600">TEE</span>Store
                 </span>
               </Link>
 
@@ -105,18 +105,10 @@ const Navbar = () => {
                 <div className="flex gap-6 text-sm font-medium text-gray-600">
                   <Link to="/" className="hover:text-indigo-600 transition">Home</Link>
                   <Link to="/shop" className="hover:text-indigo-600 transition">Shop</Link>
-                  <Link to="/new-arrivals" className="hover:text-indigo-600 transition">New Arrivals</Link>
+                  <Link to="/shop?sort=newest" className="hover:text-indigo-600 transition">New Arrivals</Link>
                 </div>
                 
-                {/* Search Bar */}
-                <div className="relative w-full max-w-md hidden lg:block">
-                  <input 
-                    type="text" 
-                    placeholder="Search t-shirts..." 
-                    className="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm rounded-full pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition"
-                  />
-                  <Search className="absolute left-3 top-2.5 text-gray-400" size={16} />
-                </div>
+               
               </div>
 
               {/* RIGHT: Actions */}
@@ -167,14 +159,7 @@ const Navbar = () => {
                             Dashboard
                           </Link>
                           
-                          <Link 
-                            to="/settings" 
-                            className="flex items-center gap-3 px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 transition"
-                            onClick={() => setIsProfileOpen(false)}
-                          >
-                            <Settings size={18} className="text-gray-400" />
-                            Settings
-                          </Link>
+                          
                         </div>
 
                         <div className="border-t border-gray-100 bg-gray-50 p-2">

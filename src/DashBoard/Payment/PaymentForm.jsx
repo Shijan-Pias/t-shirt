@@ -31,7 +31,7 @@ const PaymentForm = () => {
 
   const priceTk = TShirtInfo.price * TShirtInfo.quantity;
 
-  const amountCents = priceTk * 100;
+  const amountCents = Math.round(priceTk * 100);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

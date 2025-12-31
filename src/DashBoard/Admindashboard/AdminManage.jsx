@@ -13,7 +13,7 @@ const AdminManage = () => {
     const { data: users = [], isLoading, isFetching } = useQuery({
         queryKey: ["users-search", searchText],
         // Only run query if searchText is not empty to save resources
-        enabled: searchText.length > 0, 
+        enabled: searchText.length > 0,
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/search?query=${searchText}`);
             return res.data;
@@ -77,20 +77,20 @@ const AdminManage = () => {
     return (
         <div className="w-full p-8 bg-gray-50 min-h-screen font-sans">
             <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-                
+
                 {/* --- Header Section --- */}
                 <div className="bg-gray-900 p-8 text-center">
                     <h2 className="text-3xl font-bold text-white tracking-wide">
                         User Role Management
                     </h2>
                     <p className="text-gray-400 mt-2">Search and manage permissions securely</p>
-                    
+
                     {/* Search Bar */}
                     <form onSubmit={handleSearch} className="mt-6 flex justify-center">
                         <div className="join w-full max-w-lg">
-                            <input 
-                                className="input input-bordered join-item w-full focus:outline-none" 
-                                placeholder="Search by Name or Email..." 
+                            <input
+                                className="input input-bordered join-item w-full focus:outline-none"
+                                placeholder="Search by Name or Email..."
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                             />
@@ -139,20 +139,20 @@ const AdminManage = () => {
                                         <th className="text-center">Available Actions</th>
                                     </tr>
                                 </thead>
-                                
+
                                 {/* Table Body */}
                                 <tbody>
                                     {users.map((user) => (
                                         <tr key={user._id} className="border-b hover:bg-gray-50 transition">
-                                            
+
                                             {/* Column 1: Profile */}
                                             <td>
                                                 <div className="flex items-center gap-4">
                                                     <div className="avatar">
                                                         <div className="mask mask-squircle w-14 h-14 bg-gray-200">
-                                                            <img 
-                                                                src={user.profileImage || "https://via.placeholder.com/150"} 
-                                                                alt="Avatar" 
+                                                            <img
+                                                                src={user.profileImage || "https://via.placeholder.com/150"}
+                                                                alt="Avatar"
                                                             />
                                                         </div>
                                                     </div>
@@ -182,7 +182,7 @@ const AdminManage = () => {
                                                 <div className="flex justify-center gap-2">
                                                     {/* Show 'Make Admin' if not Admin */}
                                                     {user.role !== 'admin' && (
-                                                        <button 
+                                                        <button
                                                             onClick={() => handleRoleChange(user, 'admin')}
                                                             className="btn btn-sm btn-outline btn-secondary hover:text-white"
                                                             title="Promote to Admin">
@@ -192,7 +192,7 @@ const AdminManage = () => {
 
                                                     {/* Show 'Make Seller' if not Seller */}
                                                     {user.role !== 'seller' && (
-                                                        <button 
+                                                        <button
                                                             onClick={() => handleRoleChange(user, 'seller')}
                                                             className="btn btn-sm btn-outline btn-accent hover:text-white"
                                                             title="Promote to Seller">
@@ -202,7 +202,7 @@ const AdminManage = () => {
 
                                                     {/* Show 'Make User' if currently Admin or Seller */}
                                                     {(user.role === 'admin' || user.role === 'seller') && (
-                                                        <button 
+                                                        <button
                                                             onClick={() => handleRoleChange(user, 'user')}
                                                             className="btn btn-sm btn-ghost hover:bg-gray-200 text-gray-500"
                                                             title="Demote to User">

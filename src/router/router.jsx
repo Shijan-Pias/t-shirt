@@ -16,6 +16,9 @@ import SellerPaymentHistory from '../DashBoard/SellerDashboard/PaymentHistory';
 import AddTShirtForm from '../addTshirt/AddTShirt';
 import ManageTShirts from '../DashBoard/SellerDashboard/ManageTshirt';
 import AdminManage from '../DashBoard/Admindashboard/AdminManage';
+import Forbidden from '../HomePage/Forbiden';
+import AdminRoute from '../Routes/AdminRoute';
+import SellerRoute from '../Routes/SellerRoute';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +45,10 @@ const router = createBrowserRouter([
        element:<PrivateRoutes><MyCart></MyCart></PrivateRoutes>
 
       },
+      {
+        path :'/forbiden',
+        Component:Forbidden
+      }
 
       
 
@@ -84,19 +91,19 @@ const router = createBrowserRouter([
       },
       {
         path:'sellerPaymentHistory',
-        Component:SellerPaymentHistory
+        element:<SellerRoute><SellerPaymentHistory></SellerPaymentHistory></SellerRoute>
       },
       {
         path:"addTShirt",
-        Component:AddTShirtForm
+        element:<SellerRoute><AddTShirtForm></AddTShirtForm></SellerRoute>
       },
       {
         path:"manageTShirt",
-        Component:ManageTShirts
+        element:<SellerRoute><ManageTShirts></ManageTShirts></SellerRoute>
       },
       {
         path:"manageAdmin",
-        Component:AdminManage
+        element:<AdminRoute><AdminManage></AdminManage></AdminRoute>
       }
       
     ]
