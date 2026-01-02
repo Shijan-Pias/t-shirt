@@ -88,28 +88,6 @@ const DashBoardLayout = () => {
                     {/* Navigation Menu */}
                     <ul className="menu p-4 w-full flex-grow space-y-2">
 
-                        {/* ---------------- ADMIN LINKS ---------------- */}
-                        {/* {role === 'admin' && (
-                            <>
-                                <li className="menu-title text-gray-500 text-xs uppercase font-bold mt-2 mb-1 pl-2">Admin Control</li>
-                                <li><NavLink to="/dashboard/makeAdmin" className={activeStyle}><FaUserShield /> Make Admin</NavLink></li>
-                                <li><NavLink to="/dashboard/manageCategory" className={activeStyle}><FaClipboardList /> Manage Category</NavLink></li>
-                                <li><NavLink to="/dashboard/adminPayment" className={activeStyle}><FaMoneyBillWave /> Admin Payment</NavLink></li>
-                                <li><NavLink to="/dashboard/report" className={activeStyle}><FaFlag /> Report Admin</NavLink></li>
-                            </>
-                        )} */}
-
-                        {/* ---------------- SELLER LINKS ---------------- */}
-                        {/* {role === 'seller' && (
-                            <>
-                                <li className="menu-title text-gray-500 text-xs uppercase font-bold mt-2 mb-1 pl-2">Seller Zone</li>
-                                <li><NavLink to="/dashboard/addMedicine" className={activeStyle}><FaPlusCircle /> Add Medicine</NavLink></li>
-                                <li><NavLink to="/dashboard/manageMedicine" className={activeStyle}><FaBoxOpen /> Manage Medicine</NavLink></li>
-                                <li><NavLink to="/dashboard/sellerPaymentHistory" className={activeStyle}><FaHistory /> Payment History</NavLink></li>
-                            </>
-                        )} */}
-
-
 
                         {/* ---------------- SHARED LINKS ---------------- */}
                         <div className="divider divider-neutral my-4"></div>
@@ -138,6 +116,8 @@ const DashBoardLayout = () => {
                             role =="admin" && !isRoleLoading &&
                             <>
                                 <li><NavLink to="/dashBoard/manageAdmin" ><FaHome />Manage Admin</NavLink></li>
+                                <li><NavLink to="/dashBoard/manageItems" ><FaHome />All Item</NavLink></li>
+                                <li><NavLink to="/dashBoard/allOrder" ><FaHome />Sales Product</NavLink></li>
                             </>
                         }
 

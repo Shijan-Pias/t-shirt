@@ -19,6 +19,9 @@ import AdminManage from '../DashBoard/Admindashboard/AdminManage';
 import Forbidden from '../HomePage/Forbiden';
 import AdminRoute from '../Routes/AdminRoute';
 import SellerRoute from '../Routes/SellerRoute';
+import ManageItems from '../DashBoard/Admindashboard/ManageItem';
+import AllOrders from '../DashBoard/Admindashboard/AllOrder';
+import InvoicePage from '../InVoicePage/InVoicePage';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +51,10 @@ const router = createBrowserRouter([
       {
         path :'/forbiden',
         Component:Forbidden
+      },
+      {
+        path:"inVoicePage/:id",
+        element:<PrivateRoutes><InvoicePage></InvoicePage></PrivateRoutes>
       }
 
       
@@ -104,6 +111,14 @@ const router = createBrowserRouter([
       {
         path:"manageAdmin",
         element:<AdminRoute><AdminManage></AdminManage></AdminRoute>
+      },
+      {
+        path: "manageItems",
+        element:<AdminRoute><ManageItems></ManageItems></AdminRoute>
+      },
+      {
+        path: "allOrder",
+        element:<AdminRoute><AllOrders></AllOrders></AdminRoute>
       }
       
     ]

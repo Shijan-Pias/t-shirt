@@ -102,7 +102,7 @@ const PaymentForm = () => {
             confirmButtonText: "Go to invoice",
           }).then(() => {
             // ✅ Redirect to invoice
-            navigate(`/invoice/${paymentRes.data.insertedId}`);
+            navigate(`/inVoicePage/${paymentRes.data.insertedId}`);
           });
           refetch();
         }
