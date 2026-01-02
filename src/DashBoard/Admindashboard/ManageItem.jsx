@@ -7,17 +7,14 @@ import UseAxiosSecure from '../../hooks/UseAxiosSecure';
 const ManageItems = () => {
     const axiosSecure = UseAxiosSecure();
 
-    // 1. Fetch All Products (Admin sees everything)
     const { data: tShirts = [], isLoading, refetch } = useQuery({
         queryKey: ['all-products-admin'],
         queryFn: async () => {
             const res = await axiosSecure.get('/tShirts');
-            // সব প্রোডাক্ট উল্টো অর্ডারে (Newest first) দেখাবে
             return res.data.reverse();
         }
     });
 
-    // 2. Delete Handler
     const handleDeleteItem = (item) => {
         Swal.fire({
             title: "Are you sure?",
@@ -109,7 +106,6 @@ const ManageItems = () => {
                                     <div className="text-xs text-gray-400 mt-1">Cat: {item.category}</div>
                                 </td>
 
-                                {/* Seller Info (Important for Admin) */}
                                 <td>
                                     <div className="text-sm font-medium text-gray-700">{item.sellerEmail}</div>
                                     

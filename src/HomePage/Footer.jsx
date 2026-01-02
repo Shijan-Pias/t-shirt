@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router"; // Use react-router-dom
+import { Link } from "react-router"; 
 import { Facebook, Instagram, Twitter, Linkedin, Mail, ArrowRight, MapPin, Phone } from "lucide-react";
 
 const Footer = () => {
@@ -7,11 +7,8 @@ const Footer = () => {
 
   return (
     <footer className="bg-black text-gray-400 border-t border-gray-800 font-sans">
-      
-      {/* Top Section: Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         
-        {/* Column 1: Brand & About */}
         <div className="space-y-6">
           <h2 className="text-3xl font-bold text-white tracking-tighter">
             TEE<span className="text-orange-500">STORE</span>.

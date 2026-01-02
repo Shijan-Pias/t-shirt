@@ -6,7 +6,6 @@ import {
   Search, 
   LogOut, 
   LayoutDashboard, 
-  Settings, 
   ChevronDown,
   Store 
 } from "lucide-react";
@@ -16,15 +15,11 @@ import useAuth from "../hooks/useAuth";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  
-  // Scrolled state for styling changes (shadow)
   const [isScrolled, setIsScrolled] = useState(false);
 
   const { user, logOut } = useAuth(); 
 
   const dropdownRef = useRef(null);
-  
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -35,7 +30,6 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Detect scroll for shadow effect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -60,10 +54,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* FIXED CONTAINER:
-        This forces the entire header (Black Bar + White Nav) to stay at the top.
-        'fixed w-full top-0 z-50' ensures it floats above everything.
-      */}
       <div className="fixed w-full top-0 z-50">
         
         {/* 1. TOP UTILITY BAR */}
@@ -161,6 +151,17 @@ const Navbar = () => {
                           
                           
                         </div>
+                        <div className="">
+                          <Link 
+                            to='/updateProfile'
+                            className="flex items-center gap-3 px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 transition"
+                            
+                          >
+                            Update Profile
+                          </Link>
+                          
+                          
+                        </div>
 
                         <div className="border-t border-gray-100 bg-gray-50 p-2">
                           <button 
@@ -218,7 +219,9 @@ const Navbar = () => {
                      </div>
                    </div>
                    <Link to='/dashBoard' className="block py-2 text-gray-600" onClick={() => setIsOpen(false)}>Dashboard</Link>
-                   <Link to="/settings" className="block py-2 text-gray-600" onClick={() => setIsOpen(false)}>Settings</Link>
+                    <Link to='/updateProfile' className="block py-2 text-gray-600" >Update Profile</Link>
+                   
+
                    <button 
                      onClick={handleLogout}
                      className="block w-full text-left py-2 text-red-600 font-medium"
@@ -231,12 +234,6 @@ const Navbar = () => {
           )}
         </nav>
       </div>
-
-      {/* SPACER DIV:
-        This is crucial. Because the header is 'fixed', it floats *over* the content.
-        This invisible div pushes your page content down by roughly 112px 
-        (TopBar height + Navbar height) so nothing is hidden behind the header.
-      */}
       <div className="h-[112px] w-full"></div>
     </>
   );

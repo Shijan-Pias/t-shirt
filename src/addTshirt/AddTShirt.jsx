@@ -24,7 +24,7 @@ const AddTShirtForm = () => {
 
   const [imagePreview, setImage] = useState(null);
 
-  // Watch price and discount to auto-calculate discount price
+  // Watch price and  discount price
   const price = watch("price");
   const discount = watch("discount");
 
@@ -35,7 +35,6 @@ const AddTShirtForm = () => {
     setValue("discountPrice", calculatedPrice.toFixed(2));
   }, [price, discount, setValue]);
 
-  // Handle Image Preview
   const handleImageChange = async(e) => {
     const file = e.target.files[0];
 
@@ -102,11 +101,7 @@ const AddTShirtForm = () => {
       cancelButtonColor: "#d33",
     });
 
-    // Stop if canceled
     if (!result.isConfirmed) return;
-
-    // Save your data (You can send to backend here)
-    console.log("Saved Data:", finalData);
 
     axiosSecure.post('/tShirts',finalData)
     .then(res=>{
@@ -123,15 +118,10 @@ const AddTShirtForm = () => {
 
     })
 
-
-    
-    // Reset Form
     reset();
     setImage(null);
   };
 
-
-  // Constant Arrays for Selects
   const sizes = ["S", "M", "L", "XL", "XXL"];
   const colors = ["Red", "Blue", "Black", "White", "Green", "Yellow"];
   const categories = ["Men", "Women", "Kids", "Unisex", "Sports"];
@@ -181,7 +171,6 @@ const AddTShirtForm = () => {
                 </div>
               </div>
 
-              {/* Right: Basic Details */}
               <div className="space-y-4">
                 {/* Title */}
                 <div className="form-control">
@@ -249,7 +238,6 @@ const AddTShirtForm = () => {
 
             <div className="divider"></div>
 
-            {/* --- Section 2: Pricing & Inventory --- */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Price */}
               <div className="form-control">

@@ -9,10 +9,8 @@ const AdminManage = () => {
     const queryClient = useQueryClient();
     const [searchText, setSearchText] = useState("");
 
-    // --- 1. Fetch Users (Only when searching) ---
     const { data: users = [], isLoading, isFetching } = useQuery({
         queryKey: ["users-search", searchText],
-        // Only run query if searchText is not empty to save resources
         enabled: searchText.length > 0,
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/search?query=${searchText}`);
@@ -20,14 +18,12 @@ const AdminManage = () => {
         },
     });
 
-    // --- 2. Mutation (Update Role) ---
     const roleMutation = useMutation({
         mutationFn: async ({ id, role }) => {
             const res = await axiosSecure.patch(`/users/role/${id}`, { role });
             return res.data;
         },
         onSuccess: (_, variables) => {
-            // Refresh the list immediately
             queryClient.invalidateQueries(["users-search"]);
             Swal.fire({
                 icon: "success",
@@ -42,10 +38,8 @@ const AdminManage = () => {
         }
     });
 
-    // --- 3. Handlers ---
     const handleSearch = (e) => {
         e.preventDefault();
-        // The query key dependency [searchText] will auto-trigger the fetch
         queryClient.invalidateQueries(["users-search"]);
     };
 
@@ -65,12 +59,11 @@ const AdminManage = () => {
         });
     };
 
-    // Helper to get badge color
     const getRoleBadge = (role) => {
         switch (role) {
-            case 'admin': return 'badge-secondary'; // Purple/Pink
-            case 'seller': return 'badge-accent';   // Teal/Green
-            default: return 'badge-ghost';          // Gray
+            case 'admin': return 'badge-secondary'; 
+            case 'seller': return 'badge-accent';  
+            default: return 'badge-ghost';          
         }
     };
 
@@ -177,10 +170,9 @@ const AdminManage = () => {
                                                 </div>
                                             </td>
 
-                                            {/* Column 3: Actions (Dynamic Buttons) */}
                                             <td>
                                                 <div className="flex justify-center gap-2">
-                                                    {/* Show 'Make Admin' if not Admin */}
+                                                    
                                                     {user.role !== 'admin' && (
                                                         <button
                                                             onClick={() => handleRoleChange(user, 'admin')}
@@ -190,7 +182,7 @@ const AdminManage = () => {
                                                         </button>
                                                     )}
 
-                                                    {/* Show 'Make Seller' if not Seller */}
+                                                    
                                                     {user.role !== 'seller' && (
                                                         <button
                                                             onClick={() => handleRoleChange(user, 'seller')}
@@ -200,7 +192,6 @@ const AdminManage = () => {
                                                         </button>
                                                     )}
 
-                                                    {/* Show 'Make User' if currently Admin or Seller */}
                                                     {(user.role === 'admin' || user.role === 'seller') && (
                                                         <button
                                                             onClick={() => handleRoleChange(user, 'user')}

@@ -6,16 +6,14 @@ import UseAxiosSecure from '../../hooks/UseAxiosSecure';
 const AllOrders = () => {
     const axiosSecure = UseAxiosSecure();
 
-    // 1. Fetch All Payments/Orders
     const { data: orders = [], isLoading } = useQuery({
         queryKey: ['all-orders'],
         queryFn: async () => {
             const res = await axiosSecure.get('/payments');
-            return res.data.data; // Backend sends { success: true, data: [...] }
+            return res.data.data; 
         }
     });
 
-    // 2. Calculate Total Sales (Optional Smart Feature)
     const totalSales = orders.reduce((sum, order) => sum + order.priceTk, 0);
 
     if (isLoading) {

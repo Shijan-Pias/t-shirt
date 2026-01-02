@@ -16,7 +16,6 @@ const PaymentForm = () => {
 
   const { cartId } = useParams();
 
-  // ✅ Cart থেকে সেই medicine এর info আনছি
   const { isPending, refetch, data: TShirtInfo = {} } = useQuery({
     queryKey: ['carts', cartId],
     queryFn: async () => {
@@ -84,8 +83,8 @@ const PaymentForm = () => {
         // step -4 : payment save and history show 
         const paymentData = {
           cartId,
-          userEmail: user.email,                    // কে কিনলো
-          sellerEmail: TShirtInfo.sellerEmail,    // seller কে
+          userEmail: user.email,                    
+          sellerEmail: TShirtInfo.sellerEmail,    
           priceTk,
           transactionId: result.paymentIntent.id,
           paymentMethod: result.paymentIntent.payment_method_types,
@@ -101,7 +100,6 @@ const PaymentForm = () => {
             icon: "success",
             confirmButtonText: "Go to invoice",
           }).then(() => {
-            // ✅ Redirect to invoice
             navigate(`/inVoicePage/${paymentRes.data.insertedId}`);
           });
           refetch();

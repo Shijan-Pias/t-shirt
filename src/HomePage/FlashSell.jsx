@@ -81,7 +81,6 @@ const FlashSale = () => {
             <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
               <Flame className="text-red-500 fill-red-500" /> Flash Sales
             </h2>
-            {/* Timer (Static Mockup for visual urgency) */}
             <div className="hidden md:flex items-center gap-2 bg-red-100 text-red-600 px-4 py-1 rounded-md border border-red-200">
                <Timer size={18} />
                <span className="font-mono font-bold tracking-widest">Ending in 12:45:00</span>

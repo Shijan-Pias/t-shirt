@@ -16,7 +16,7 @@ const SocialLogin = () => {
                 const userInfo = {
                     name: loggedInUser.displayName,
                     email: loggedInUser.email,
-                    role: "user", // Default role for Google Login
+                    role: "user",
                     image: loggedInUser.photoURL,
                     status: "active"
                 };
@@ -39,8 +39,6 @@ const SocialLogin = () => {
                 <span className="text-gray-500">OR</span>
                 <div className="flex-grow h-px bg-gray-300"></div>
             </div>
-
-            {/* Google Button */}
             <button
                 onClick={handleGoogleLogin}
                 className="w-full flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-md transition"

@@ -97,7 +97,6 @@ const Login = () => {
                     </a>
                 </p>
 
-                {/* Google Button (optional UI only) */}
                 <SocialLogin></SocialLogin>
             </div>
         </div>

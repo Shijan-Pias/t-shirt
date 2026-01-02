@@ -1,6 +1,5 @@
 import React from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router'; // Fixed import 'react-router-dom'
-// import UseUserRole from '../hook/UseUserRole';
+import { NavLink, Outlet, useNavigate } from 'react-router';
 import {
     FaHome, FaUsers, FaClipboardList, FaMoneyBillWave,
     FaPlusCircle, FaBoxOpen, FaChartBar, FaUserShield,
@@ -11,28 +10,19 @@ import useUserRole from '../hooks/UseUserRole';
 
 
 const DashBoardLayout = () => {
-    // Mock user data for display (Replace with real user data from AuthContext)
     const { user } = useAuth();
     const { role, isRoleLoading} = useUserRole();
     console.log(role);
-
-    // const { role, roleLoading } = UseUserRole();
     const navigate = useNavigate();
 
-    // Helper for Active Link Styling
     const activeStyle = ({ isActive }) =>
         isActive
             ? "flex items-center gap-3 px-4 py-3 bg-primary text-white rounded-lg shadow-md transition-all duration-300 transform scale-105"
             : "flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-base-300 hover:text-white rounded-lg transition-all duration-300";
 
     const handleLogout = () => {
-        // Add your logout logic here
         navigate('/login');
     };
-
-    // if (roleLoading) {
-    //     return <div className="h-screen flex justify-center items-center bg-base-300"><span className="loading loading-spinner loading-lg text-primary"></span></div>;
-    // }
 
     return (
         <div className="drawer lg:drawer-open bg-base-200 min-h-screen font-sans">

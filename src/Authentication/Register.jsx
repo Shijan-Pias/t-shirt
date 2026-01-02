@@ -25,13 +25,11 @@ const Register = () => {
       .then(async (result) => {
         console.log(result.user);
 
-        //update user 
-        //update in back-end
         const userData = {
 
           email: data.email,
           name: data.name,
-          role: data.role, //default
+          role: data.role, 
           profileImage: profilePic,
           created_at: new Date().toISOString(),
           last_log_in: new Date().toISOString()
@@ -185,7 +183,6 @@ const Register = () => {
           </button>
         </form>
 
-        {/* Login Link */}
         <p className="text-center text-gray-600 mt-6">
           Already have an account?{" "}
           <a href="/login" className="text-blue-600 hover:underline">
@@ -193,7 +190,6 @@ const Register = () => {
           </a>
         </p>
 
-        {/* Google Button (optional UI only) */}
         <SocialLogin></SocialLogin>
       </div>
     </div>

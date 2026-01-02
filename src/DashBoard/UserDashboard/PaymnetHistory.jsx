@@ -10,14 +10,9 @@ const PaymentHistory = () => {
 
     const { data: payments = [], isLoading, error } = useQuery({
         queryKey: ['payments', user?.email],
-        enabled: !!user?.email, // Check if user.email exists
+        enabled: !!user?.email, 
         queryFn: async () => {
-            // FIX 1: Use user.email (not user.userEmail)
-            // FIX 2: Use ?email= (Query Parameter) to match your backend
             const res = await axiosSecure.get(`/payments?email=${user.email}`);
-
-            // Your backend returns { success: true, data: [...] }
-            // So we need to return res.data.data to get the array
             return res.data.data;
         }
     });

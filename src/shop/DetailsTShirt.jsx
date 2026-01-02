@@ -18,7 +18,6 @@ const TShirtDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('desc'); 
 
-  // --- 1. Fetch Main Product Data ---
   const { data: tshirt, isLoading, isError } = useQuery({
     queryKey: ['tShirt', id],
     queryFn: async () => {
@@ -30,15 +29,13 @@ const TShirtDetails = () => {
  
   const { data: relatedProducts = [] } = useQuery({
     queryKey: ['related', tshirt?.category],
-    enabled: !!tshirt?.category, // Only fetch if category is known
+    enabled: !!tshirt?.category, 
     queryFn: async () => {
       const res = await axiosSecure.get(`/tShirts?category=${tshirt.category}`);
-      // Filter out current product and take only 4
       return res.data.filter(item => item._id !== id).slice(0, 4);
     }
   });
 
-  // --- 3. Add to Cart Mutation ---
   const addToCartMutation = useMutation({
     mutationFn: async (cartData) => {
       return await axiosSecure.post('/carts', cartData);
@@ -63,7 +60,6 @@ const TShirtDetails = () => {
     }
   });
 
-  // --- Handle Add To Cart ---
   const handleAddToCart = () => {
     if (!user) {
       Swal.fire({

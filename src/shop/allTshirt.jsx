@@ -26,7 +26,6 @@ const ShopTShirts = () => {
     },
   });
 
-  // 4. Effect: যখন URL থেকে ক্যাটাগরি আসবে, তখন State আপডেট হবে
   useEffect(() => {
     if (categoryFromUrl) {
       const formattedCategory = categoryFromUrl.charAt(0).toUpperCase() + categoryFromUrl.slice(1);
@@ -41,7 +40,6 @@ const ShopTShirts = () => {
 
   const filteredProducts = tshirts
     .filter((item) => {
-      // A. Category Filter
       if (selectedCategory !== "All" && item.category !== selectedCategory) {
         return false; 
       }

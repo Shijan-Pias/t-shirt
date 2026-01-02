@@ -9,7 +9,6 @@ const AuthLayout = () => {
     return (
 
         <div>
-            {/* Outlet (Child Pages Render Here) */}
             <Outlet />
             <div className="w-full  flex items-center justify-center bg-gray-50 p-6">
                 <motion.div

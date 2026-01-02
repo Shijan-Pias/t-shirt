@@ -11,7 +11,6 @@ const ManageTShirts = () => {
     const queryClient = useQueryClient();
     const [selectedTShirt, setSelectedTShirt] = useState(null); 
 
-    // 1. Fetch Seller's T-Shirts
     const { data: tShirts = [], isLoading } = useQuery({
         queryKey: ['my-tshirts', user?.email],
         enabled: !!user?.email,
@@ -21,7 +20,6 @@ const ManageTShirts = () => {
         }
     });
 
-    // 2. Delete Function
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -41,22 +39,21 @@ const ManageTShirts = () => {
                     }
                 } catch (error) {
                     Swal.fire("Error!", "Something went wrong.", "error");
+                    console.log(error);
                 }
             }
         });
     };
 
-    // 3. Update Function (JSON ONLY - No Image)
     const handleUpdateSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
 
-        // Construct a simple JSON object with all text fields
         const updateData = {
             title: form.title.value,
             brand: form.brand.value,
             category: form.category.value,
-            price: parseFloat(form.price.value), // Ensure numbers are sent as numbers
+            price: parseFloat(form.price.value), 
             discount: parseFloat(form.discount.value),
             quantity: parseInt(form.quantity.value),
             color: form.color.value,
@@ -66,7 +63,7 @@ const ManageTShirts = () => {
         };
 
         try {
-            // Send as standard JSON
+        
             const res = await axiosSecure.patch(`/tShirts/${selectedTShirt._id}`, updateData);
 
             if (res.data.modifiedCount > 0) {
@@ -143,7 +140,7 @@ const ManageTShirts = () => {
                 </table>
             </div>
 
-            {/* --- UPDATE MODAL (Text Only) --- */}
+        
             {selectedTShirt && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 overflow-y-auto py-10">
                     <div className="bg-white p-6 rounded-lg shadow-2xl w-full max-w-3xl relative">
