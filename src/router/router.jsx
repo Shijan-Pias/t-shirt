@@ -22,6 +22,7 @@ import SellerRoute from '../Routes/SellerRoute';
 import ManageItems from '../DashBoard/Admindashboard/ManageItem';
 import AllOrders from '../DashBoard/Admindashboard/AllOrder';
 import InvoicePage from '../InVoicePage/InVoicePage';
+import Profile from '../Authentication/UpdateProfile';
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path:'/register',
         Component:Register
+      },
+      {
+        path:"updateProfile",
+        element:<PrivateRoutes><Profile></Profile></PrivateRoutes>
       }
     ]
   },

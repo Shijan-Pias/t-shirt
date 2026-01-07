@@ -1,9 +1,15 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router';
 import {
-    FaHome, FaUsers, FaClipboardList, FaMoneyBillWave,
+    FaHome, FaUsers,
     FaPlusCircle, FaBoxOpen, FaChartBar, FaUserShield,
-    FaFlag, FaSignOutAlt, FaHistory
+    FaFlag, FaSignOutAlt, FaHistory,
+    FaShoppingCart,
+    FaFileInvoiceDollar,
+    FaWallet,
+    FaListAlt,
+    FaUsersCog,
+    FaChartLine
 } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
 import useUserRole from '../hooks/UseUserRole';
@@ -83,34 +89,63 @@ const DashBoardLayout = () => {
                         <div className="divider divider-neutral my-4"></div>
 
                         <li><NavLink to="/" className={activeStyle}><FaHome /> Home</NavLink></li>
-                        {
-                            role == "user" &&
-                            <>
-                                <li><NavLink to="/dashBoard/myCart" ><FaHome /> MyTShirt</NavLink></li>
-                                <li><NavLink to="/dashBoard/paymentHistory" ><FaHome /> My Payment</NavLink></li>
+                       {/* ================= USER LINKS ================= */}
+{role === "user" && (
+    <>
+        <li>
+            <NavLink to="/dashBoard/myCart">
+                <FaShoppingCart /> My Cart
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="/dashBoard/paymentHistory">
+                <FaFileInvoiceDollar /> Payment History
+            </NavLink>
+        </li>
+    </>
+)}
 
-                            </>
-                        }
-                        {
-                            role == "seller" &&
+{/* ================= SELLER LINKS ================= */}
+{role === "seller" && (
+    <>
+        <li>
+            <NavLink to="/dashBoard/sellerPaymentHistory">
+                <FaWallet /> My Income
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="/dashBoard/addTShirt">
+                <FaPlusCircle /> Add T-Shirt
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="/dashBoard/manageTShirt">
+                <FaListAlt /> Manage Products
+            </NavLink>
+        </li>
+    </>
+)}
 
-                            <>
-                                <li><NavLink to="/dashBoard/sellerPaymentHistory" ><FaHome /> All Payment</NavLink></li>
-                                <li><NavLink to="/dashBoard/addTShirt" ><FaHome />Add tShirt</NavLink></li>
-                                <li><NavLink to="/dashBoard/manageTShirt" ><FaHome />Manage TShirt</NavLink></li>
-                            </>
-                        }
-
-
-                        {
-                            role =="admin" && !isRoleLoading &&
-                            <>
-                                <li><NavLink to="/dashBoard/manageAdmin" ><FaHome />Manage Admin</NavLink></li>
-                                <li><NavLink to="/dashBoard/manageItems" ><FaHome />All Item</NavLink></li>
-                                <li><NavLink to="/dashBoard/allOrder" ><FaHome />Sales Product</NavLink></li>
-                            </>
-                        }
-
+{/* ================= ADMIN LINKS ================= */}
+{role === "admin" && !isRoleLoading && (
+    <>
+        <li>
+            <NavLink to="/dashBoard/manageAdmin">
+                <FaUsersCog /> Manage Users
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="/dashBoard/manageItems">
+                <FaBoxOpen /> All Products
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="/dashBoard/allOrder">
+                <FaChartLine /> Total Sales
+            </NavLink>
+        </li>
+    </>
+)}
 
                     </ul>
 
